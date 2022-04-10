@@ -2,6 +2,28 @@ defmodule NimbleJson.Parser do
   import NimbleParsec
   import NimbleJson.Parser.Helper
 
+  defparsecp(
+    :integer,
+    optional(choice([string("-"), ignore(string("+"))]))
+    |> ascii_string([?0..?9], min: 1)
+    |> reduce({Enum, :join, [""]})
+    |> map({String, :to_integer, []})
+    |> unwrap_and_tag(:litteral)
+  )
+
+  defparsecp(
+    :float,
+    optional(choice([string("-"), ignore(string("+"))]))
+    |> ascii_string([?0..?9], min: 1)
+    |> string(".")
+    |> ascii_string([?0..?9], min: 1)
+    |> reduce({Enum, :join, [""]})
+    |> map({String, :to_float, []})
+    |> unwrap_and_tag(:litteral)
+  )
+
+  defparsec(:number, choice([parsec(:float), parsec(:integer)]))
+
   defparsecp(:json_string, quoted_string() |> unwrap_and_tag(:litteral))
   defparsecp(:json_key, quoted_string(1))
 
@@ -9,7 +31,7 @@ defmodule NimbleJson.Parser do
 
   defparsecp(
     :value,
-    choice([parsec(:json_string), parsec(:null), parsec(:object), parsec(:list)])
+    choice([parsec(:json_string), parsec(:null), parsec(:object), parsec(:list), parsec(:number)])
   )
 
   defparsecp(
