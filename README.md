@@ -1,6 +1,28 @@
 # NimbleJson
+A json decoder solely created to test the parser combinator library [nimble_parsec](https://github.com/dashbitco/nimble_parsec) :)
 
-**TODO: Add description**
+## Decode
+
+```elixir
+json_string = "{\"a\":\"wow\",\"c\":{\"l\":[\"a\",23.2],\"x\":23}}"
+
+{:ok, %{"a" => "wow", "c" => %{"l" => ["a", 23.2], "x" => 23}}} =
+      NimbleJson.decode(json_string)
+```
+
+
+
+## Encode
+
+```elixir
+m = %{
+      a: "wow",
+      c: %{l: ["a", 23.2], x: 23}
+    }
+    
+{:ok, "{\"a\":\"wow\",\"c\":{\"l\":[\"a\",23.2],\"x\":23}}"} = NimbleJson.encode(m)
+
+```
 
 ## Installation
 
