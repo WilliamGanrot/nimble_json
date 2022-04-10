@@ -1,18 +1,16 @@
 defmodule NimbleJson do
-  @moduledoc """
-  Documentation for `NimbleJson`.
-  """
+  def decode(input) do
+    case apply(Parser, :parse, [input]) do
+      {:ok, result, _, _, _, _} ->
+        {:ok, result |> List.first() |> NimbleJson.Parser.Evaluator.eval()}
 
-  @doc """
-  Hello world.
+      {:error, message, _, _, _, _} ->
+        {:error, message}
+    end
+  end
 
-  ## Examples
-
-      iex> NimbleJson.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  def decode!(input) do
+    {:ok, m} = decode(input)
+    m
   end
 end

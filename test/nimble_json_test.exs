@@ -17,4 +17,22 @@ defmodule NimbleJsonTest do
              ]
            ] == parsed
   end
+
+  test "can eval parsed syntax to map" do
+    parsed = {
+      :object,
+      [
+        ["a", {:litteral, nil}],
+        ["b", {:litteral, "hej"}],
+        [
+          "c",
+          {:object, [["d", {:list, [litteral: "this", litteral: "is", litteral: "cool"]}]]}
+        ]
+      ]
+    }
+
+    expected = %{"a" => nil, "b" => "hej", "c" => %{"d" => ["this", "is", "cool"]}}
+
+    assert expected == parsed |> NimbleJson.Parser.Evaluator.eval()
+  end
 end
