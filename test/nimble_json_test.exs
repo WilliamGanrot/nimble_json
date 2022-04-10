@@ -33,6 +33,6 @@ defmodule NimbleJsonTest do
 
     expected = %{"a" => nil, "b" => "hej", "c" => %{"d" => ["this", "is", "cool"]}}
 
-    assert expected == parsed |> NimbleJson.Parser.Evaluator.eval()
+    assert expected == parsed |> NimbleJson.Parser.Evaluator.to_map()
   end
 end
