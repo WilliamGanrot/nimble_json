@@ -2,7 +2,19 @@ defmodule NimbleJsonTest do
   use ExUnit.Case
   doctest NimbleJson
 
-  test "greets the world" do
-    assert NimbleJson.hello() == :world
+  test "can parse raw string into parsed syntax" do
+    encoded = "{\"a\" : null, \"b\": \"hej\", \"c\":{\"d\": [\"this\", \"is\", \"cool\"]}}"
+    {:ok, parsed, _, _, _, _} = NimbleJson.Parser.parse(encoded)
+
+    assert [
+             object: [
+               ["a", {:litteral, nil}],
+               ["b", {:litteral, "hej"}],
+               [
+                 "c",
+                 {:object, [["d", {:list, [litteral: "this", litteral: "is", litteral: "cool"]}]]}
+               ]
+             ]
+           ] == parsed
   end
 end
