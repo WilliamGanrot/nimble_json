@@ -1,5 +1,5 @@
 # NimbleJson
-A json decoder solely created to test the parser combinator library [nimble_parsec](https://github.com/dashbitco/nimble_parsec) :)
+A json decoder/encoder solely created to test the parser combinator library [nimble_parsec](https://github.com/dashbitco/nimble_parsec) :)
 
 ## Decode
 
